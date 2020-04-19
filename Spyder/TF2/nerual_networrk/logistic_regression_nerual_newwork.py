@@ -142,16 +142,15 @@ class OurNeuralNetwork:
     return grads, cost
 
 
-  def optimize(self, w, b, X, Y, num_iterations, learning_rate, print_cost = False):
+  def train(self, w, b, X, Y, num_iterations, learning_rate, print_cost = False):
     
     costs = []
     
     for i in range(num_iterations):
-        
+        #通过前馈过程，求出本次的预测值
         y_pred = nework.feedforward(w, b, X)  # compute activation
 
-        # Cost and gradient calculation (≈ 1-4 lines of code)
-        ### START CODE HERE ### 
+        #后馈过程；根据预测值，求出损失函数和w,b的偏导数
         grads, cost = self.propagate(w, b, X, Y, y_pred)
         ### END CODE HERE ###
         
@@ -159,16 +158,14 @@ class OurNeuralNetwork:
         dw = grads["dw"]
         db = grads["db"]
         
-        # update rule (≈ 2 lines of code)
-        ### START CODE HERE ###
+        #通过梯度下降，迭代更新w和b的值
         w = w - learning_rate * dw  # need to broadcast
         b = b - learning_rate * db
         ### END CODE HERE ###
         
-        # Record the costs
+        #每迭代一百次，输出下损失值
         if i % 100 == 0:
             costs.append(cost)
-        
         # Print the cost every 100 training examples
         if print_cost and i % 100 == 0:
             print ("Cost after iteration %i: %f" % (i, cost))
@@ -213,7 +210,7 @@ class OurNeuralNetwork:
     w, b = self.initialize_with_zeros(X_train.shape[0])
 
     # Gradient descent (≈ 1 line of code)
-    parameters, grads, costs = self.optimize(w, b, X_train, Y_train, num_iterations, learning_rate, print_cost)
+    parameters, grads, costs = self.train(w, b, X_train, Y_train, num_iterations, learning_rate, print_cost)
     
     # Retrieve parameters w and b from dictionary "parameters"
     w = parameters["w"]
@@ -257,12 +254,17 @@ print ("db = " + str(grads["db"]))
 print ("cost = " + str(cost))
 
 
-#params, grads, costs = nework.optimize(w, b, X, Y, num_iterations= 100, learning_rate = 0.009, print_cost = False)
+params, grads, costs = nework.train(w, b, X, Y, num_iterations= 100, learning_rate = 0.009, print_cost = False)
 
-#print ("w = " + str(params["w"]))
-#print ("b = " + str(params["b"]))
-#print ("dw = " + str(grads["dw"]))
-#print ("db = " + str(grads["db"]))
+print ("------train------")
+
+print ("w = " + str(params["w"]))
+print ("b = " + str(params["b"]))
+print ("dw = " + str(grads["dw"]))
+print ("db = " + str(grads["db"]))
+
+Y_PRED = nework.predict(params["w"],params["b"],X)
+print("-----"+Y_PRED)
 
 
 #d = nework.model(train_set_x, train_set_y, test_set_x, test_set_y, num_iterations = 2000, learning_rate = 0.005, print_cost = True)

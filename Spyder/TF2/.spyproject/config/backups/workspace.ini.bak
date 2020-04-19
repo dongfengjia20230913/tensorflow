@@ -6,5 +6,5 @@ save_non_project_files = False
 
 [main]
 version = 0.2.0
-recent_files = ['tf2_linear_regression.py', 'data_generate.py', 'D:\\ProgramData\\Anaconda3\\lib\\site-packages\\matplotlib\\pyplot.py']
+recent_files = ['nerual_networrk\\logistic_regression_nerual_newwork.py']
 
